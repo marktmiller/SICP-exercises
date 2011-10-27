@@ -4,6 +4,8 @@
 ; than 10,000; larger than 100,000; larger than 1,000,000. Note the time
 ; needed to test each prime.
 
+; Section 1.2.6 code
+; ------------------
 (define (smallest-divisor n)
   (find-divisor n 2))
 
@@ -21,6 +23,8 @@
 (define (prime? n)
   (= n (smallest-divisor n)))
 
+; Exercise code
+; -------------
 (define (timed-prime-test n)
   (newline)
   (display n)
@@ -35,6 +39,7 @@
   (display " *** ")
   (display (if (< elapsed-time 0) (- elapsed-time) elapsed-time))
   #t)
+;---------------------
 
 (define (search-for-primes value primes-found)
   (define primes
