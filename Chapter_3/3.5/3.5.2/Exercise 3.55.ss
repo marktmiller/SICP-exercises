@@ -1,10 +1,9 @@
 ; Must be run in Lazy Scheme
 
-; Define a procedure mul-streams, analogous to add-streams, that
-; produces the elementwise product of its two input streams.
-;
-; Basically, use this with the integers stream to create a stream
-; whose nth element (counting from 0) is n + 1 factorial.
+; Define a procedure partial-sums that takes as argument a stream S
+; and returns the stream whose elements are S(0), S(0) + S(1),
+; S(0) + S(1) + S(2),.... For example, (partial-sums integers)
+; should be the stream 1, 3, 6, 10, 15, ...
 
 ; Section 3.5 code
 ; ----------------
@@ -21,16 +20,7 @@
 
 (define (stream-cdr stream) (force (cdr stream)))
 
-(define (memo-proc proc)
-  (let ((already-run? false) (result false))
-    (lambda ()
-      (if (not already-run?)
-          (begin (set! result (proc))
-                 (set! already-run? true)
-                 result)
-          result))))
-
-(define (delay exp) (memo-proc (lambda () exp)))
+(define (delay exp) (lambda () exp))
 
 (define (force delayed-object) (delayed-object))
 
@@ -47,14 +37,15 @@
 (define (add-streams s1 s2)
   (stream-map + s1 s2))
 
+(define (mul-streams s1 s2)
+  (stream-map * s1 s2))
+
 (define ones (cons-stream 1 ones))
 
 (define integers (cons-stream 1 (add-streams ones integers)))
 
-;---------------------------
+; -------------------
 
-(define (mul-streams s1 s2)
-  (stream-map * s1 s2))
-
-(define factorials (cons-stream 1 (mul-streams (stream-cdr integers)
-                                               factorials)))
+(define (partial-sums s)
+  (cons-stream (stream-car s) (add-streams (partial-sums s)
+                                           (stream-cdr s))))

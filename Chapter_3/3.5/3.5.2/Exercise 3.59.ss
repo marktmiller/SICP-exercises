@@ -17,12 +17,14 @@
   (let ((already-run? false) (result false))
     (lambda ()
       (if (not already-run?)
-          (being (set! result (proc))
+          (begin (set! result (proc))
                  (set! already-run? true)
                  result)
           result))))
 
 (define (delay exp) (memo-proc (lambda () exp)))
+
+(define (force delayed-object) (delayed-object))
 
 (define (stream-map proc . argstreams)
   (if (stream-null? (car argstreams))
