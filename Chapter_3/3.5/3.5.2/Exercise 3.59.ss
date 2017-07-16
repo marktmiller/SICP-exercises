@@ -107,7 +107,7 @@
 ;
 ; a(0)x, (1/2)a(1)x^2, (1/3)a(2)x^3, ...
 ;
-; Though here the x terms are what's important. The constant term in the
+; Though here, the x terms are what's important. The constant term in the
 ; power series is prepended to the stream before integrate-series is called.
 ;
 ; The cosine-series only produces coefficients in the even positions. In
