@@ -2,7 +2,7 @@
 ; f(n) = n if n < 3 and
 ; f(n) = f(n - 1) + 2f(n - 2) + 3f(n - 3) if n >= 3.
 ;
-; Write a procedure that computes f by menas of an iterative process.
+; Write a procedure that computes f by means of an iterative process.
 
 (define (f n)
   (f-iter 1 n 0 0 0))

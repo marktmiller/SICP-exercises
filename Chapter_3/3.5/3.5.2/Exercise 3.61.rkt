@@ -44,6 +44,9 @@
 
 (define negative-ones (cons-stream -1 negative-ones))
 
+(define (scale-stream stream factor)
+  (stream-map (lambda (x) (* x factor)) stream))
+
 ; Let S be a power series whose constant term is 1. Suppose we want to find the
 ; power series 1/S, that is, the series X such that S * X = 1. Write S = 1 + S(R)
 ; where S(R) is the part of S after the constant term. Then we can solve for X as
@@ -61,8 +64,7 @@
 
 (define (mul-series s1 s2)
    (cons-stream (* (stream-car s1) (stream-car s2))
-      (add-streams (stream-map (lambda (x) (* (stream-car s1) x))
-                               (stream-cdr s2))
+      (add-streams (scale-stream (stream-cdr s2) (stream-car s1))
                    (mul-series (stream-cdr s1) s2))))
 
 (define (invert-unit-series s)

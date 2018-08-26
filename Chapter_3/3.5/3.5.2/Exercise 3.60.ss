@@ -41,9 +41,10 @@
 
 (define ones (cons-stream 1 ones))
 
-;---------------------------
-
 (define (mul-streams s1 s2) (stream-map * s1 s2))
+
+(define (scale-stream stream factor)
+  (stream-map (lambda (x) (* x factor)) stream))
 
 ; With power series represented as streams of coefficients as in exercise 3.59,
 ; adding series is implemented by add-streams. Complete the definition of the
@@ -58,10 +59,8 @@
 ; Using Cauchy product
 (define (mul-series s1 s2)
    (cons-stream (* (stream-car s1) (stream-car s2))
-      (add-streams (stream-map (lambda (x) (* (stream-car s1) x))
-                               (stream-cdr s2))
+      (add-streams (scale-stream (stream-cdr s2) (stream-car s1))
                    (mul-series (stream-cdr s1) s2))))
-
 
 ; Test code from Exercise 3.59
 ; ----------------------------
